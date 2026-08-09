@@ -43,10 +43,6 @@ jobs:
           mkdir -p ~/.dbt
           cp dbt/profiles_example.yml ~/.dbt/profiles.yml
 
-      - name: dbt deps
-        working-directory: dbt
-        run: dbt deps
-
       - name: dbt run
         working-directory: dbt
         run: dbt run

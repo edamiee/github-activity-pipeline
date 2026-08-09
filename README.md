@@ -97,10 +97,11 @@ dbt/
    the shape — this file holds credentials, never commit a real one) and run:
    ```bash
    cd dbt
-   dbt deps
    dbt run
    dbt test
    ```
+   No external packages required — everything's plain SQL/Jinja and dbt's
+   built-in Semantic Layer, so there's no `dbt deps` step.
 5. **Lightdash**: point a self-hosted Lightdash instance at this same
    Postgres connection and the `dbt/` project directory — it reads the
    semantic models directly, no separate dashboard config needed for the

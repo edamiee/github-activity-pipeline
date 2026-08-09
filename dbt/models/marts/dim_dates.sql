@@ -1,23 +1,19 @@
 -- Calendar spine from the earliest commit on record to today, so every
 -- metric can be plotted with a consistent, gap-free time axis rather than
--- only showing days that happened to have activity.
-with bounds as (
-    select
-        coalesce(min(committed_at::date), current_date) as start_date,
-        current_date as end_date
-    from {{ ref('stg_github__commits') }}
-),
-
-spine as (
-    {{ dbt_utils.date_spine(
-        datepart="day",
-        start_date="(select start_date from bounds)",
-        end_date="(select end_date + 1 from bounds)"
-    ) }}
+-- only showing days that happened to have activity. Plain generate_series
+-- with the bounds inlined as scalar subqueries — simpler and more portable
+-- than a macro-generated date spine, and avoids relying on a sibling CTE
+-- being visible inside a macro's own generated SQL.
+with spine as (
+    select generate_series(
+        (select coalesce(min(committed_at::date), current_date) from {{ ref('stg_github__commits') }}),
+        current_date,
+        interval '1 day'
+    )::date as date_day
 )
 
 select
-    date_day::date as date_day,
+    date_day,
     extract(isoyear from date_day)::int as iso_year,
     extract(week from date_day)::int as iso_week,
     extract(month from date_day)::int as month_of_year,
