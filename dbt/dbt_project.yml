@@ -11,8 +11,13 @@ clean-targets: ["target", "dbt_packages"]
 models:
   github_activity_pipeline:
     staging:
-      +materialized: view
-      +schema: staging
+      # Ephemeral rather than view — compiles as an inline CTE wherever a
+      # mart references it, never materializes as a real relation. That's
+      # what actually keeps it out of Lightdash's explore list (a
+      # model-level `meta.hidden` doesn't exist in Lightdash's schema —
+      # hidden only applies to individual dimensions/metrics, not whole
+      # models, which is why that was tried first and did nothing).
+      +materialized: ephemeral
     marts:
       +materialized: table
       +schema: marts

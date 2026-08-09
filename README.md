@@ -52,7 +52,7 @@ query`) or from Lightdash:
 ```
 ingest/                     Python ingestion script — GitHub API -> Postgres raw schema
 dbt/
-  models/staging/           1:1 typed views over the raw tables
+  models/staging/           1:1 typed pass-throughs over the raw tables (ephemeral — inline CTEs, no relation of their own)
   models/marts/             dim_repos, dim_dates, fct_commits, fct_pull_requests, fct_issues
   models/semantic_models/   metric + dimension definitions (the semantic layer)
 .github/workflows/          scheduled ingest + dbt run/test
