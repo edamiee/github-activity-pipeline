@@ -1,0 +1,45 @@
+semantic_models:
+  - name: pull_requests
+    model: ref('fct_pull_requests')
+    defaults:
+      agg_time_dimension: created_date
+    entities:
+      - name: pull_request
+        type: primary
+        expr: pr_id
+      - name: repo
+        type: foreign
+        expr: repo_id
+    dimensions:
+      - name: created_date
+        type: time
+        type_params:
+          time_granularity: day
+      - name: pr_state
+        type: categorical
+    measures:
+      - name: pr_count
+        agg: count
+        expr: pr_id
+      - name: merged_pr_count
+        agg: count
+        expr: "case when is_merged then pr_id end"
+      - name: avg_cycle_time_hours
+        agg: average
+        expr: cycle_time_hours
+
+metrics:
+  - name: pr_merge_rate
+    label: PR merge rate
+    description: Share of pull requests that end up merged vs. closed unmerged.
+    type: ratio
+    type_params:
+      numerator: merged_pr_count
+      denominator: pr_count
+
+  - name: avg_pr_cycle_time
+    label: Average PR cycle time (hours)
+    description: Average time from PR opened to merged, in hours.
+    type: simple
+    type_params:
+      measure: avg_cycle_time_hours

@@ -1,0 +1,45 @@
+semantic_models:
+  - name: issues
+    model: ref('fct_issues')
+    defaults:
+      agg_time_dimension: created_date
+    entities:
+      - name: issue
+        type: primary
+        expr: issue_id
+      - name: repo
+        type: foreign
+        expr: repo_id
+    dimensions:
+      - name: created_date
+        type: time
+        type_params:
+          time_granularity: day
+      - name: issue_state
+        type: categorical
+    measures:
+      - name: issue_count
+        agg: count
+        expr: issue_id
+      - name: closed_issue_count
+        agg: count
+        expr: "case when issue_closed_at is not null then issue_id end"
+      - name: avg_time_to_close_hours
+        agg: average
+        expr: time_to_close_hours
+
+metrics:
+  - name: issue_close_rate
+    label: Issue close rate
+    description: Share of issues closed vs. opened in the period.
+    type: ratio
+    type_params:
+      numerator: closed_issue_count
+      denominator: issue_count
+
+  - name: avg_time_to_close
+    label: Average time to close (hours)
+    description: Average time from issue opened to closed, in hours.
+    type: simple
+    type_params:
+      measure: avg_time_to_close_hours

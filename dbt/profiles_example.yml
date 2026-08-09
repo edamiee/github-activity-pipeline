@@ -1,0 +1,14 @@
+# Copy to ~/.dbt/profiles.yml and fill in real values — never commit the
+# real file, it holds a database password.
+github_activity_pipeline:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('PGHOST') }}"
+      user: "{{ env_var('PGUSER') }}"
+      password: "{{ env_var('PGPASSWORD') }}"
+      port: 5432
+      dbname: "{{ env_var('PGDATABASE') }}"
+      schema: raw
+      threads: 4

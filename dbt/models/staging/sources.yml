@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    description: Landing tables written by ingest/ingest.py.
+    tables:
+      - name: repos
+      - name: commits
+      - name: pull_requests
+      - name: issues

@@ -1,0 +1,54 @@
+name: Ingest and transform
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # daily, 06:00 UTC
+  workflow_dispatch: {} # manual trigger from the Actions tab
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      # Named PIPELINE_GITHUB_TOKEN rather than GITHUB_TOKEN — that name is
+      # reserved for the token GitHub Actions injects automatically for the
+      # runner itself, and shadowing it causes confusing auth failures.
+      GITHUB_TOKEN: ${{ secrets.PIPELINE_GITHUB_TOKEN }}
+      GITHUB_USERNAME: ${{ vars.GITHUB_USERNAME }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ingestion dependencies
+        run: pip install -r ingest/requirements.txt
+
+      - name: Run ingestion
+        run: python ingest/ingest.py
+
+      - name: Install dbt
+        run: pip install dbt-postgres
+
+      - name: dbt deps
+        working-directory: dbt
+        run: dbt deps
+
+      - name: dbt run
+        working-directory: dbt
+        run: dbt run
+        env:
+          PGHOST: ${{ vars.PGHOST }}
+          PGUSER: ${{ vars.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+          PGDATABASE: ${{ vars.PGDATABASE }}
+
+      - name: dbt test
+        working-directory: dbt
+        run: dbt test
+        env:
+          PGHOST: ${{ vars.PGHOST }}
+          PGUSER: ${{ vars.PGUSER }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
+          PGDATABASE: ${{ vars.PGDATABASE }}

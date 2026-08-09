@@ -1,0 +1,41 @@
+semantic_models:
+  - name: commits
+    model: ref('fct_commits')
+    defaults:
+      agg_time_dimension: committed_date
+    entities:
+      - name: commit
+        type: primary
+        expr: commit_sha
+      - name: repo
+        type: foreign
+        expr: repo_id
+    dimensions:
+      - name: committed_date
+        type: time
+        type_params:
+          time_granularity: day
+      - name: language
+        type: categorical
+    measures:
+      - name: commit_count
+        agg: count
+        expr: commit_sha
+      - name: distinct_active_repos
+        agg: count_distinct
+        expr: repo_id
+
+metrics:
+  - name: commits_per_week
+    label: Commits per week
+    description: Commit volume over time, by repo or language.
+    type: simple
+    type_params:
+      measure: commit_count
+
+  - name: active_repos
+    label: Active repos
+    description: Distinct repos with at least one commit in the period.
+    type: simple
+    type_params:
+      measure: distinct_active_repos

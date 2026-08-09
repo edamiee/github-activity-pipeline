@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: dim_repos
+    columns:
+      - name: repo_id
+        tests: [not_null, unique]
+
+  - name: dim_dates
+    columns:
+      - name: date_day
+        tests: [not_null, unique]
+
+  - name: fct_commits
+    columns:
+      - name: commit_sha
+        tests: [not_null, unique]
+      - name: committed_at
+        tests: [not_null]
+
+  - name: fct_pull_requests
+    columns:
+      - name: pr_id
+        tests: [not_null, unique]
+
+  - name: fct_issues
+    columns:
+      - name: issue_id
+        tests: [not_null, unique]
