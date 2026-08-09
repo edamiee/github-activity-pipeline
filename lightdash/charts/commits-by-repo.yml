@@ -1,0 +1,42 @@
+name: Commits by repo
+description: Top repos by commit volume across the tracked account.
+tableName: fct_commits
+metricQuery:
+  exploreName: fct_commits
+  dimensions:
+    - fct_commits_repo_full_name
+  metrics:
+    - fct_commits_commits_per_week
+  filters: {}
+  sorts:
+    - fieldId: fct_commits_commits_per_week
+      descending: true
+  limit: 15
+  tableCalculations: []
+  additionalMetrics: []
+  customDimensions: []
+chartConfig:
+  type: cartesian
+  config:
+    layout:
+      xField: fct_commits_repo_full_name
+      yField:
+        - fct_commits_commits_per_week
+      flipAxes: true
+    eChartsConfig:
+      series:
+        - type: bar
+          encode:
+            xRef:
+              field: fct_commits_repo_full_name
+            yRef:
+              field: fct_commits_commits_per_week
+          yAxisIndex: 0
+          color: "#4FA890"
+slug: commits-by-repo
+tableConfig:
+  columnOrder:
+    - fct_commits_repo_full_name
+    - fct_commits_commits_per_week
+spaceSlug: shared
+version: 1

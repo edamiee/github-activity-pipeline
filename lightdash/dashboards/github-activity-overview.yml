@@ -143,6 +143,19 @@ tiles:
       chartName: Active repos by month
       chartSlug: active-repos-by-month
       lastVersionChartKind: line
+  - x: 0
+    'y': 42
+    h: 12
+    w: 36
+    tabUuid: null
+    type: saved_chart
+    properties:
+      title: ''
+      hideTitle: false
+      belongsToDashboard: false
+      chartName: Commits by repo
+      chartSlug: commits-by-repo
+      lastVersionChartKind: bar
 filters:
   metrics: []
   dimensions: []

@@ -21,15 +21,45 @@ models:
     columns:
       - name: commit_sha
         tests: [not_null, unique]
+      - name: repo_full_name
+        description: Owner/repo this commit belongs to.
+      - name: language
+        description: Primary language of the repo, per the GitHub API.
+      - name: author_name
+        description: Commit author's display name.
       - name: committed_at
         tests: [not_null]
+      - name: committed_date
+        description: committed_at truncated to a date.
 
   - name: fct_pull_requests
     columns:
       - name: pr_id
         tests: [not_null, unique]
+      - name: repo_full_name
+        description: Owner/repo this pull request belongs to.
+      - name: pr_number
+        description: PR number within its repo.
+      - name: pr_state
+        description: "PR state as reported by the GitHub API: open or closed."
+      - name: pr_title
+        description: PR title.
+      - name: is_merged
+        description: Whether the PR was merged (vs. closed unmerged).
+      - name: created_date
+        description: pr_created_at truncated to a date.
 
   - name: fct_issues
     columns:
       - name: issue_id
         tests: [not_null, unique]
+      - name: repo_full_name
+        description: Owner/repo this issue belongs to.
+      - name: issue_number
+        description: Issue number within its repo.
+      - name: issue_state
+        description: "Issue state as reported by the GitHub API: open or closed."
+      - name: issue_title
+        description: Issue title.
+      - name: created_date
+        description: issue_created_at truncated to a date.
