@@ -14,7 +14,10 @@ jobs:
       # reserved for the token GitHub Actions injects automatically for the
       # runner itself, and shadowing it causes confusing auth failures.
       GITHUB_TOKEN: ${{ secrets.PIPELINE_GITHUB_TOKEN }}
-      GITHUB_USERNAME: ${{ vars.GITHUB_USERNAME }}
+      # Same reservation applies to variables starting with GITHUB_ — the
+      # repo variable is named INGEST_GITHUB_USERNAME for that reason, and
+      # only renamed to GITHUB_USERNAME here for ingest.py to read.
+      GITHUB_USERNAME: ${{ vars.INGEST_GITHUB_USERNAME }}
     steps:
       - uses: actions/checkout@v4
 

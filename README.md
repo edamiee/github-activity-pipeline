@@ -82,10 +82,11 @@ dbt/
 
    In GitHub Actions (`.github/workflows/pipeline.yml`), the equivalents are
    repo **secrets** `DATABASE_URL`, `PIPELINE_GITHUB_TOKEN`, `PGPASSWORD`,
-   and repo **variables** `GITHUB_USERNAME`, `PGHOST`, `PGUSER`,
-   `PGDATABASE`. The token secret is named `PIPELINE_GITHUB_TOKEN` rather
-   than `GITHUB_TOKEN` — that name is reserved for the token Actions injects
-   automatically for the runner itself.
+   and repo **variables** `INGEST_GITHUB_USERNAME`, `PGHOST`, `PGUSER`,
+   `PGDATABASE`. Both `PIPELINE_GITHUB_TOKEN` and `INGEST_GITHUB_USERNAME`
+   avoid the `GITHUB_` prefix — GitHub rejects secrets *and* variables
+   starting with it, since that namespace is reserved for the values
+   Actions injects automatically for the runner itself.
 3. **Ingest locally**:
    ```bash
    cd ingest
