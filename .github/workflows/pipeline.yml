@@ -50,3 +50,25 @@ jobs:
       - name: dbt test
         working-directory: dbt
         run: dbt test
+
+      - name: Notify on failure
+        # Same Telegram bot/chat damienkedwardstech.com pings for business
+        # inquiries — a failed run here sits unattended for up to 6h
+        # otherwise, since nothing else watches this workflow.
+        if: failure()
+        run: |
+          curl -sf -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -H "content-type: application/json" \
+            -d "$(python3 -c '
+import json, os
+text = (
+    f"github-activity-pipeline run failed: {os.environ[\"REPO\"]}\n"
+    f"{os.environ[\"RUN_URL\"]}"
+)
+print(json.dumps({"chat_id": os.environ["TELEGRAM_ADMIN_CHAT_ID"], "text": text}))
+')"
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
