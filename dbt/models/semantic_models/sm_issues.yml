@@ -29,6 +29,21 @@ semantic_models:
         expr: time_to_close_hours
 
 metrics:
+  # Ratio metrics' numerator/denominator reference other *metrics*, not
+  # measures directly — these two exist only to be referenced by
+  # issue_close_rate below.
+  - name: issue_count
+    label: Issue count
+    type: simple
+    type_params:
+      measure: issue_count
+
+  - name: closed_issue_count
+    label: Closed issue count
+    type: simple
+    type_params:
+      measure: closed_issue_count
+
   - name: issue_close_rate
     label: Issue close rate
     description: Share of issues closed vs. opened in the period.

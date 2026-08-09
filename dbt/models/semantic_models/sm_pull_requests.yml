@@ -29,6 +29,21 @@ semantic_models:
         expr: cycle_time_hours
 
 metrics:
+  # Ratio metrics' numerator/denominator reference other *metrics*, not
+  # measures directly — these two exist only to be referenced by
+  # pr_merge_rate below.
+  - name: pr_count
+    label: PR count
+    type: simple
+    type_params:
+      measure: pr_count
+
+  - name: merged_pr_count
+    label: Merged PR count
+    type: simple
+    type_params:
+      measure: merged_pr_count
+
   - name: pr_merge_rate
     label: PR merge rate
     description: Share of pull requests that end up merged vs. closed unmerged.
