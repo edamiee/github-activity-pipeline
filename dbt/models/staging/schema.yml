@@ -1,0 +1,24 @@
+version: 2
+
+# Staging is internal plumbing — typed pass-throughs over the raw tables,
+# not meant to be browsed directly. Hiding them from Lightdash's explore
+# list (rather than fixing the "no dimensions" warning by documenting
+# columns nobody should query) keeps the marts + semantic layer as the
+# one user-facing surface, matching how they're described everywhere else.
+models:
+  - name: stg_github__repos
+    config:
+      meta:
+        hidden: true
+  - name: stg_github__commits
+    config:
+      meta:
+        hidden: true
+  - name: stg_github__pull_requests
+    config:
+      meta:
+        hidden: true
+  - name: stg_github__issues
+    config:
+      meta:
+        hidden: true
