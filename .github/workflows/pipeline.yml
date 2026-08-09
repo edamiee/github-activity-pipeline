@@ -18,6 +18,10 @@ jobs:
       # repo variable is named INGEST_GITHUB_USERNAME for that reason, and
       # only renamed to GITHUB_USERNAME here for ingest.py to read.
       GITHUB_USERNAME: ${{ vars.INGEST_GITHUB_USERNAME }}
+      PGHOST: ${{ vars.PGHOST }}
+      PGUSER: ${{ vars.PGUSER }}
+      PGPASSWORD: ${{ secrets.PGPASSWORD }}
+      PGDATABASE: ${{ vars.PGDATABASE }}
     steps:
       - uses: actions/checkout@v4
 
@@ -34,6 +38,11 @@ jobs:
       - name: Install dbt
         run: pip install dbt-postgres
 
+      - name: Configure dbt profile
+        run: |
+          mkdir -p ~/.dbt
+          cp dbt/profiles_example.yml ~/.dbt/profiles.yml
+
       - name: dbt deps
         working-directory: dbt
         run: dbt deps
@@ -41,17 +50,7 @@ jobs:
       - name: dbt run
         working-directory: dbt
         run: dbt run
-        env:
-          PGHOST: ${{ vars.PGHOST }}
-          PGUSER: ${{ vars.PGUSER }}
-          PGPASSWORD: ${{ secrets.PGPASSWORD }}
-          PGDATABASE: ${{ vars.PGDATABASE }}
 
       - name: dbt test
         working-directory: dbt
         run: dbt test
-        env:
-          PGHOST: ${{ vars.PGHOST }}
-          PGUSER: ${{ vars.PGUSER }}
-          PGPASSWORD: ${{ secrets.PGPASSWORD }}
-          PGDATABASE: ${{ vars.PGDATABASE }}
