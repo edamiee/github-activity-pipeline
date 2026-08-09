@@ -1,0 +1,44 @@
+name: Active repos by month
+description: Distinct repos with at least one commit, per month.
+tableName: fct_commits
+metricQuery:
+  exploreName: fct_commits
+  dimensions:
+    - fct_commits_committed_at_month
+  metrics:
+    - fct_commits_active_repos
+  filters: {}
+  sorts:
+    - fieldId: fct_commits_committed_at_month
+      descending: false
+  limit: 500
+  tableCalculations: []
+  additionalMetrics: []
+  customDimensions: []
+chartConfig:
+  type: cartesian
+  config:
+    layout:
+      xField: fct_commits_committed_at_month
+      yField:
+        - fct_commits_active_repos
+      flipAxes: false
+    eChartsConfig:
+      series:
+        - type: line
+          areaStyle: {}
+          smooth: true
+          encode:
+            xRef:
+              field: fct_commits_committed_at_month
+            yRef:
+              field: fct_commits_active_repos
+          yAxisIndex: 0
+          color: "#4FA890"
+slug: active-repos-by-month
+tableConfig:
+  columnOrder:
+    - fct_commits_committed_at_month
+    - fct_commits_active_repos
+spaceSlug: shared
+version: 1

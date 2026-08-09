@@ -1,0 +1,42 @@
+name: Commits by month
+description: Monthly commit volume across all tracked repos.
+tableName: fct_commits
+metricQuery:
+  exploreName: fct_commits
+  dimensions:
+    - fct_commits_committed_at_month
+  metrics:
+    - fct_commits_commits_per_week
+  filters: {}
+  sorts:
+    - fieldId: fct_commits_committed_at_month
+      descending: false
+  limit: 500
+  tableCalculations: []
+  additionalMetrics: []
+  customDimensions: []
+chartConfig:
+  type: cartesian
+  config:
+    layout:
+      xField: fct_commits_committed_at_month
+      yField:
+        - fct_commits_commits_per_week
+      flipAxes: false
+    eChartsConfig:
+      series:
+        - type: bar
+          encode:
+            xRef:
+              field: fct_commits_committed_at_month
+            yRef:
+              field: fct_commits_commits_per_week
+          yAxisIndex: 0
+          color: "#2E7D6B"
+slug: commits-by-month
+tableConfig:
+  columnOrder:
+    - fct_commits_committed_at_month
+    - fct_commits_commits_per_week
+spaceSlug: shared
+version: 1

@@ -1,0 +1,26 @@
+name: Total commits
+description: All commits ingested to date.
+tableName: fct_commits
+metricQuery:
+  exploreName: fct_commits
+  dimensions: []
+  metrics:
+  - fct_commits_commits_per_week
+  filters: {}
+  sorts: []
+  limit: 1
+  tableCalculations: []
+  additionalMetrics: []
+  customDimensions: []
+chartConfig:
+  type: big_number
+  config:
+    selectedField: fct_commits_commits_per_week
+    showBigNumberLabel: true
+    label: Total commits
+slug: total-commits
+tableConfig:
+  columnOrder:
+  - fct_commits_commits_per_week
+spaceSlug: shared
+version: 1

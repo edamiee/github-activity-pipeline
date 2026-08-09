@@ -1,0 +1,26 @@
+name: Active repos
+description: Distinct repos with at least one commit.
+tableName: fct_commits
+metricQuery:
+  exploreName: fct_commits
+  dimensions: []
+  metrics:
+  - fct_commits_active_repos
+  filters: {}
+  sorts: []
+  limit: 1
+  tableCalculations: []
+  additionalMetrics: []
+  customDimensions: []
+chartConfig:
+  type: big_number
+  config:
+    selectedField: fct_commits_active_repos
+    showBigNumberLabel: true
+    label: Active repos
+slug: active-repos
+tableConfig:
+  columnOrder:
+  - fct_commits_active_repos
+spaceSlug: shared
+version: 1

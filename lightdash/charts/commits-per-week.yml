@@ -1,0 +1,45 @@
+name: Commits per week
+description: Commit volume over time, across all tracked repos.
+tableName: fct_commits
+metricQuery:
+  exploreName: fct_commits
+  dimensions:
+    - fct_commits_committed_at_week
+  metrics:
+    - fct_commits_commits_per_week
+  filters: {}
+  sorts:
+    - fieldId: fct_commits_committed_at_week
+      descending: false
+  limit: 500
+  tableCalculations: []
+  additionalMetrics: []
+  customDimensions: []
+chartConfig:
+  type: cartesian
+  config:
+    layout:
+      xField: fct_commits_committed_at_week
+      yField:
+        - fct_commits_commits_per_week
+      flipAxes: false
+    eChartsConfig:
+      series:
+        - type: line
+          areaStyle: {}
+          smooth: true
+          showSymbol: false
+          encode:
+            xRef:
+              field: fct_commits_committed_at_week
+            yRef:
+              field: fct_commits_commits_per_week
+          yAxisIndex: 0
+          color: "#2E7D6B"
+slug: commits-per-week
+tableConfig:
+  columnOrder:
+    - fct_commits_committed_at_week
+    - fct_commits_commits_per_week
+spaceSlug: shared
+version: 1

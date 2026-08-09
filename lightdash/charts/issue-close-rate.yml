@@ -1,0 +1,26 @@
+name: Issue close rate
+description: Share of issues closed vs. opened.
+tableName: fct_issues
+metricQuery:
+  exploreName: fct_issues
+  dimensions: []
+  metrics:
+  - fct_issues_issue_close_rate
+  filters: {}
+  sorts: []
+  limit: 1
+  tableCalculations: []
+  additionalMetrics: []
+  customDimensions: []
+chartConfig:
+  type: big_number
+  config:
+    selectedField: fct_issues_issue_close_rate
+    showBigNumberLabel: true
+    label: Issue close rate
+slug: issue-close-rate
+tableConfig:
+  columnOrder:
+  - fct_issues_issue_close_rate
+spaceSlug: shared
+version: 1

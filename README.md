@@ -47,6 +47,15 @@ query`) or from Lightdash:
 | `issue_close_rate` | Share of issues closed vs. opened in a period |
 | `avg_time_to_close` | Average time from issue opened to closed |
 
+## Dashboard
+
+![GitHub activity pipeline dashboard](docs/dashboard.png)
+
+Self-hosted [Lightdash](https://www.lightdash.com/), built on the same
+semantic layer above — the charts and dashboard layout are defined as YAML in
+[`lightdash/`](lightdash/) and deployed with `lightdash upload`, so the BI
+layer is version-controlled alongside the models it queries.
+
 ## Repo layout
 
 ```

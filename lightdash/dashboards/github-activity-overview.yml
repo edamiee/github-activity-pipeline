@@ -1,0 +1,153 @@
+name: GitHub activity overview
+description: Live metrics from the dbt semantic layer over this account's GitHub activity.
+tiles:
+  - x: 0
+    'y': 0
+    h: 3
+    w: 36
+    tabUuid: null
+    type: markdown
+    properties:
+      title: 📊 GitHub Activity Pipeline
+      hideTitle: false
+      content: >
+        Ingested via GitHub Actions every 6 hours, modeled with dbt, and
+        defined once as a dbt Semantic Layer — these numbers are the same
+        metrics dbt tests against, not a separate dashboard-only definition.
+  - x: 0
+    'y': 3
+    h: 8
+    w: 12
+    tabUuid: null
+    type: saved_chart
+    properties:
+      title: ''
+      hideTitle: false
+      belongsToDashboard: false
+      chartName: Total commits
+      chartSlug: total-commits
+      lastVersionChartKind: big_number
+  - x: 12
+    'y': 3
+    h: 8
+    w: 12
+    tabUuid: null
+    type: saved_chart
+    properties:
+      title: ''
+      hideTitle: false
+      belongsToDashboard: false
+      chartName: Active repos
+      chartSlug: active-repos
+      lastVersionChartKind: big_number
+  - x: 24
+    'y': 3
+    h: 8
+    w: 12
+    tabUuid: null
+    type: saved_chart
+    properties:
+      title: ''
+      hideTitle: false
+      belongsToDashboard: false
+      chartName: PR merge rate
+      chartSlug: pr-merge-rate
+      lastVersionChartKind: big_number
+  - x: 0
+    'y': 11
+    h: 8
+    w: 12
+    tabUuid: null
+    type: saved_chart
+    properties:
+      title: ''
+      hideTitle: false
+      belongsToDashboard: false
+      chartName: Avg PR cycle time
+      chartSlug: avg-pr-cycle-time
+      lastVersionChartKind: big_number
+  - x: 12
+    'y': 11
+    h: 8
+    w: 12
+    tabUuid: null
+    type: saved_chart
+    properties:
+      title: ''
+      hideTitle: false
+      belongsToDashboard: false
+      chartName: Issue close rate
+      chartSlug: issue-close-rate
+      lastVersionChartKind: big_number
+  - x: 24
+    'y': 11
+    h: 8
+    w: 12
+    tabUuid: null
+    type: saved_chart
+    properties:
+      title: ''
+      hideTitle: false
+      belongsToDashboard: false
+      chartName: Avg time to close
+      chartSlug: avg-time-to-close
+      lastVersionChartKind: big_number
+  - x: 0
+    'y': 19
+    h: 3
+    w: 36
+    tabUuid: null
+    type: markdown
+    properties:
+      title: 📈 Trends
+      hideTitle: false
+      content: >
+        Full commit history across all tracked repos, back to each repo's
+        first commit.
+  - x: 0
+    'y': 22
+    h: 10
+    w: 36
+    tabUuid: null
+    type: saved_chart
+    properties:
+      title: ''
+      hideTitle: false
+      belongsToDashboard: false
+      chartName: Commits per week
+      chartSlug: commits-per-week
+      lastVersionChartKind: line
+  - x: 0
+    'y': 32
+    h: 10
+    w: 18
+    tabUuid: null
+    type: saved_chart
+    properties:
+      title: ''
+      hideTitle: false
+      belongsToDashboard: false
+      chartName: Commits by month
+      chartSlug: commits-by-month
+      lastVersionChartKind: bar
+  - x: 18
+    'y': 32
+    h: 10
+    w: 18
+    tabUuid: null
+    type: saved_chart
+    properties:
+      title: ''
+      hideTitle: false
+      belongsToDashboard: false
+      chartName: Active repos by month
+      chartSlug: active-repos-by-month
+      lastVersionChartKind: line
+filters:
+  metrics: []
+  dimensions: []
+  tableCalculations: []
+tabs: []
+slug: github-activity-overview
+spaceSlug: shared
+version: 1

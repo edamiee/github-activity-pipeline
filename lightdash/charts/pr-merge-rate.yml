@@ -1,0 +1,26 @@
+name: PR merge rate
+description: Share of pull requests that end up merged.
+tableName: fct_pull_requests
+metricQuery:
+  exploreName: fct_pull_requests
+  dimensions: []
+  metrics:
+  - fct_pull_requests_pr_merge_rate
+  filters: {}
+  sorts: []
+  limit: 1
+  tableCalculations: []
+  additionalMetrics: []
+  customDimensions: []
+chartConfig:
+  type: big_number
+  config:
+    selectedField: fct_pull_requests_pr_merge_rate
+    showBigNumberLabel: true
+    label: PR merge rate
+slug: pr-merge-rate
+tableConfig:
+  columnOrder:
+  - fct_pull_requests_pr_merge_rate
+spaceSlug: shared
+version: 1

@@ -1,0 +1,26 @@
+name: Avg PR cycle time
+description: Average hours from PR opened to merged.
+tableName: fct_pull_requests
+metricQuery:
+  exploreName: fct_pull_requests
+  dimensions: []
+  metrics:
+  - fct_pull_requests_avg_pr_cycle_time
+  filters: {}
+  sorts: []
+  limit: 1
+  tableCalculations: []
+  additionalMetrics: []
+  customDimensions: []
+chartConfig:
+  type: big_number
+  config:
+    selectedField: fct_pull_requests_avg_pr_cycle_time
+    showBigNumberLabel: true
+    label: Avg PR cycle time
+slug: avg-pr-cycle-time
+tableConfig:
+  columnOrder:
+  - fct_pull_requests_avg_pr_cycle_time
+spaceSlug: shared
+version: 1

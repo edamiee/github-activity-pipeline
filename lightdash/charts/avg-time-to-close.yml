@@ -1,0 +1,26 @@
+name: Avg time to close
+description: Average hours from issue opened to closed.
+tableName: fct_issues
+metricQuery:
+  exploreName: fct_issues
+  dimensions: []
+  metrics:
+  - fct_issues_avg_time_to_close
+  filters: {}
+  sorts: []
+  limit: 1
+  tableCalculations: []
+  additionalMetrics: []
+  customDimensions: []
+chartConfig:
+  type: big_number
+  config:
+    selectedField: fct_issues_avg_time_to_close
+    showBigNumberLabel: true
+    label: Avg time to close
+slug: avg-time-to-close
+tableConfig:
+  columnOrder:
+  - fct_issues_avg_time_to_close
+spaceSlug: shared
+version: 1
