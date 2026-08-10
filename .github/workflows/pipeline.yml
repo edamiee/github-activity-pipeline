@@ -57,16 +57,11 @@ jobs:
         # otherwise, since nothing else watches this workflow.
         if: failure()
         run: |
+          TEXT="github-activity-pipeline run failed: ${REPO}
+          ${RUN_URL}"
           curl -sf -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
             -H "content-type: application/json" \
-            -d "$(python3 -c '
-import json, os
-text = (
-    f"github-activity-pipeline run failed: {os.environ[\"REPO\"]}\n"
-    f"{os.environ[\"RUN_URL\"]}"
-)
-print(json.dumps({"chat_id": os.environ["TELEGRAM_ADMIN_CHAT_ID"], "text": text}))
-')"
+            -d "$(jq -n --arg chat_id "$TELEGRAM_ADMIN_CHAT_ID" --arg text "$TEXT" '{chat_id: $chat_id, text: $text}')"
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
