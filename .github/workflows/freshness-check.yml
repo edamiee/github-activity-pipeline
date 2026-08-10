@@ -1,0 +1,49 @@
+name: Check pipeline freshness
+
+# Independent of pipeline.yml on purpose: if that workflow's cron stops
+# firing entirely (bad YAML, GitHub auto-disabling it after 60 days of
+# repo inactivity, revoked permissions), its own "Notify on failure" step
+# never runs either, since the job itself never starts. This workflow
+# checks from the outside, via the Actions API, so it still catches that.
+on:
+  schedule:
+    - cron: "0 6,18 * * *" # twice a day, offset from pipeline.yml's own schedule
+  workflow_dispatch: {}
+
+permissions:
+  actions: read
+
+jobs:
+  check-freshness:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Check workflow state and last successful run
+        run: |
+          STATE=$(gh api "repos/${{ github.repository }}/actions/workflows/pipeline.yml" --jq .state)
+          LAST_SUCCESS=$(gh api "repos/${{ github.repository }}/actions/workflows/pipeline.yml/runs?status=success&per_page=1" --jq '.workflow_runs[0].updated_at // empty')
+
+          PROBLEM=""
+          if [ "$STATE" != "active" ]; then
+            PROBLEM="pipeline.yml is not active (state: $STATE) — GitHub may have auto-disabled it after 60 days without repo activity"
+          elif [ -z "$LAST_SUCCESS" ]; then
+            PROBLEM="pipeline.yml has never completed successfully"
+          else
+            HOURS_SINCE=$(( ($(date +%s) - $(date -d "$LAST_SUCCESS" +%s)) / 3600 ))
+            if [ "$HOURS_SINCE" -gt 18 ]; then
+              PROBLEM="last successful pipeline run was ${HOURS_SINCE}h ago (expected every 6h) — last success: $LAST_SUCCESS"
+            fi
+          fi
+
+          echo "PROBLEM=$PROBLEM" >> "$GITHUB_ENV"
+
+      - name: Notify if stale
+        if: env.PROBLEM != ''
+        run: |
+          curl -sf -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -H "content-type: application/json" \
+            -d "$(jq -n --arg chat_id "$TELEGRAM_ADMIN_CHAT_ID" --arg text "github-activity-pipeline freshness check: $PROBLEM" '{chat_id: $chat_id, text: $text}')"
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
